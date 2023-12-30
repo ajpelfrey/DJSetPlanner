@@ -113,7 +113,7 @@ main {
   background-color: var(--darkest);
   padding: 1rem;
   border-radius: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1 rem;
 }
 
 .task .content {
@@ -128,7 +128,7 @@ main {
   .task .content .text {
 	flex: .5; /* Expand to fill remaining space */
 	text-align: center; /* Center the text */
-	color: var(--light);
+	color: var(--pink);
 	font-size: 1.5rem;
 	/* width: 100%; */ /* Remove width property */
 	/* display: block; */ /* Not needed when using flex */
@@ -201,7 +201,7 @@ main {
   color: var(--light);
   padding: 0.5rem 1rem;
   border-radius: 1rem;
-  font-size: 1rem;
+  font-size: 2rem;
   margin-top: 0.5rem;
   display: inline-block;
 }
