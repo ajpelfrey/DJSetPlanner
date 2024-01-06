@@ -1,94 +1,80 @@
 window.addEventListener('load', () => {
-	const form = document.querySelector("#new-task-form");
-	const input = document.querySelector("#new-task-input");
-	const listEl = document.querySelector("#tasks");
-	let currentTime = 0;
-  
-	form.addEventListener('submit', (e) => {
-	  e.preventDefault();
-  
-	  const song = input.value;
-	  const duration = prompt("Enter the song duration (in seconds):");
-	  const timeStamp = getTimeStamp();
-  
-	  const songEl = document.createElement('div');
-	  songEl.classList.add('task');
-  
-	  const songContentEl = document.createElement('div');
-	  songContentEl.classList.add('content');
-  
-	  songEl.appendChild(songContentEl);
-  
-	  const songInputEl = document.createElement('input');
-	  songInputEl.classList.add('text');
-	  songInputEl.type = 'text';
-	  songInputEl.value = song;
-	  songInputEl.setAttribute('readonly', 'readonly');
-  
-	  songContentEl.appendChild(songInputEl);
-  
-	  const songActionsEl = document.createElement('div');
-	  songActionsEl.classList.add('actions');
-  
-	  const songEditEl = document.createElement('button');
-	  songEditEl.classList.add('edit');
-	  songEditEl.innerText = 'Edit';
-  
-	  const songDeleteEl = document.createElement('button');
-	  songDeleteEl.classList.add('delete');
-	  songDeleteEl.innerText = 'Delete';
-  
-	  songActionsEl.appendChild(songEditEl);
-	  songActionsEl.appendChild(songDeleteEl);
-  
-	  songEl.appendChild(songActionsEl);
-  
-	  listEl.appendChild(songEl);
-  
-	  input.value = '';
-  
-	  songEditEl.addEventListener('click', (e) => {
-		if (songEditEl.innerText.toLowerCase() == "edit") {
-		  songEditEl.innerText = "Save";
-		  songInputEl.removeAttribute("readonly");
-		  songInputEl.focus();
-		} else {
-		  songEditEl.innerText = "Edit";
-		  songInputEl.setAttribute("readonly", "readonly");
-		  updateNotes(songEl, songNotesEl, songInputEl.value);
-		}
-	  });
-  
-	  songDeleteEl.addEventListener('click', (e) => {
-		listEl.removeChild(songEl);
-	  });
-  
-	  const songNotesEl = document.createElement('textarea');
-	  songNotesEl.classList.add('notes');
-	  songNotesEl.placeholder = 'Add your notes here';
-  
-	  songEl.appendChild(songNotesEl);
-  
-	  const songTimeStampEl = document.createElement('div');
-	  songTimeStampEl.classList.add('timestamp');
-	  songTimeStampEl.innerText = `Timestamp: ${timeStamp}, Duration: ${duration} seconds`;
-  
-	  songEl.appendChild(songTimeStampEl);
-  
-	  currentTime += parseInt(duration);
-	});
-  
-	const getTimeStamp = () => {
-	  const minutes = Math.floor(currentTime / 60).toString().padStart(2, '0');
-	  const seconds = (currentTime % 60).toString().padStart(2, '0');
-	  return `${minutes}:${seconds}`;
-	};
-  
-	const updateNotes = (songEl, songNotesEl, newNotes) => {
-	  const existingNotesEl = songEl.querySelector('.notes');
-	  if (existingNotesEl) {
-		existingNotesEl.innerText = `Notes: ${newNotes}`;
-	  }
-	};
-  });
-  
+    const form = document.querySelector("#new-task-form");
+    const input = document.querySelector("#new-task-input");
+    const artistInput = document.querySelector("#artist-name-input");
+    const listEl = document.querySelector("#tasks");
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const song = input.value.trim();
+        const artist = artistInput.value.trim();
+        const duration = prompt("Enter the song duration (in seconds):");
+        const timeStamp = getTimeStamp();
+
+        const taskEl = document.createElement('div');
+        taskEl.classList.add('task');
+
+        const taskContentEl = document.createElement('div');
+        taskContentEl.classList.add('content');
+
+        taskEl.appendChild(taskContentEl);
+
+        const songInfoEl = document.createElement('p');
+        songInfoEl.classList.add('song-info');
+
+        const songText = artist !== "" ? `${song} - ${artist}` : song;
+        songInfoEl.textContent = songText;
+
+        taskContentEl.appendChild(songInfoEl);
+
+        const taskActionsEl = document.createElement('div');
+        taskActionsEl.classList.add('actions');
+
+        const taskEditEl = document.createElement('button');
+        taskEditEl.classList.add('edit');
+        taskEditEl.innerText = 'Edit';
+
+        const taskDeleteEl = document.createElement('button');
+        taskDeleteEl.classList.add('delete');
+        taskDeleteEl.innerText = 'Delete';
+
+        taskActionsEl.appendChild(taskEditEl);
+        taskActionsEl.appendChild(taskDeleteEl);
+
+        taskEl.appendChild(taskActionsEl);
+
+        listEl.appendChild(taskEl);
+
+        input.value = '';
+        artistInput.value = '';
+
+        taskEditEl.addEventListener('click', (e) => {
+            // Edit functionality
+        });
+
+        taskDeleteEl.addEventListener('click', (e) => {
+            listEl.removeChild(taskEl);
+        });
+
+        const taskNotesEl = document.createElement('textarea');
+        taskNotesEl.classList.add('notes');
+        taskNotesEl.placeholder = 'Add your notes here';
+
+        taskEl.appendChild(taskNotesEl);
+
+        const taskTimeStampEl = document.createElement('div');
+        taskTimeStampEl.classList.add('timestamp');
+        taskTimeStampEl.innerText = `Timestamp: ${timeStamp}, Duration: ${duration} seconds`;
+
+        taskEl.appendChild(taskTimeStampEl);
+    });
+
+    const getTimeStamp = () => {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
+    };
+});
