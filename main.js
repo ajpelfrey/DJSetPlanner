@@ -2,79 +2,65 @@ window.addEventListener('load', () => {
     const form = document.querySelector("#new-task-form");
     const input = document.querySelector("#new-task-input");
     const artistInput = document.querySelector("#artist-name-input");
-    const listEl = document.querySelector("#tasks");
+    const list_el = document.querySelector("#tasks");
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
         const song = input.value.trim();
         const artist = artistInput.value.trim();
-        const duration = prompt("Enter the song duration (in seconds):");
-        const timeStamp = getTimeStamp();
+        const task = artist !== "" ? `${song} - ${artist}` : song;
 
-        const taskEl = document.createElement('div');
-        taskEl.classList.add('task');
+        const task_el = document.createElement('div');
+        task_el.classList.add('task');
 
-        const taskContentEl = document.createElement('div');
-        taskContentEl.classList.add('content');
+        const task_content_el = document.createElement('div');
+        task_content_el.classList.add('content');
 
-        taskEl.appendChild(taskContentEl);
+        task_el.appendChild(task_content_el);
 
-        const songInfoEl = document.createElement('p');
-        songInfoEl.classList.add('song-info');
+        const task_input_el = document.createElement('input');
+        task_input_el.classList.add('text');
+        task_input_el.type = 'text';
+        task_input_el.value = task;
+        task_input_el.setAttribute('readonly', 'readonly');
 
-        const songText = artist !== "" ? `${song} - ${artist}` : song;
-        songInfoEl.textContent = songText;
+        task_content_el.appendChild(task_input_el);
 
-        taskContentEl.appendChild(songInfoEl);
+        const task_actions_el = document.createElement('div');
+        task_actions_el.classList.add('actions');
 
-        const taskActionsEl = document.createElement('div');
-        taskActionsEl.classList.add('actions');
+        const task_edit_el = document.createElement('button');
+        task_edit_el.classList.add('edit');
+        task_edit_el.innerText = 'Edit';
 
-        const taskEditEl = document.createElement('button');
-        taskEditEl.classList.add('edit');
-        taskEditEl.innerText = 'Edit';
+        const task_delete_el = document.createElement('button');
+        task_delete_el.classList.add('delete');
+        task_delete_el.innerText = 'Delete';
 
-        const taskDeleteEl = document.createElement('button');
-        taskDeleteEl.classList.add('delete');
-        taskDeleteEl.innerText = 'Delete';
+        task_actions_el.appendChild(task_edit_el);
+        task_actions_el.appendChild(task_delete_el);
 
-        taskActionsEl.appendChild(taskEditEl);
-        taskActionsEl.appendChild(taskDeleteEl);
+        task_el.appendChild(task_actions_el);
 
-        taskEl.appendChild(taskActionsEl);
-
-        listEl.appendChild(taskEl);
+        list_el.appendChild(task_el);
 
         input.value = '';
         artistInput.value = '';
 
-        taskEditEl.addEventListener('click', (e) => {
-            // Edit functionality
+        task_edit_el.addEventListener('click', (e) => {
+            if (task_edit_el.innerText.toLowerCase() == "edit") {
+                task_edit_el.innerText = "Save";
+                task_input_el.removeAttribute("readonly");
+                task_input_el.focus();
+            } else {
+                task_edit_el.innerText = "Edit";
+                task_input_el.setAttribute("readonly", "readonly");
+            }
         });
 
-        taskDeleteEl.addEventListener('click', (e) => {
-            listEl.removeChild(taskEl);
+        task_delete_el.addEventListener('click', (e) => {
+            list_el.removeChild(task_el);
         });
-
-        const taskNotesEl = document.createElement('textarea');
-        taskNotesEl.classList.add('notes');
-        taskNotesEl.placeholder = 'Add your notes here';
-
-        taskEl.appendChild(taskNotesEl);
-
-        const taskTimeStampEl = document.createElement('div');
-        taskTimeStampEl.classList.add('timestamp');
-        taskTimeStampEl.innerText = `Timestamp: ${timeStamp}, Duration: ${duration} seconds`;
-
-        taskEl.appendChild(taskTimeStampEl);
     });
-
-    const getTimeStamp = () => {
-        const now = new Date();
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0');
-        return `${hours}:${minutes}:${seconds}`;
-    };
 });
